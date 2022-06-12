@@ -38,7 +38,7 @@ def get_weather(name):
 
         s = (f'Погода в городе: {city} \nТемпература: {round(temp,1)}С° {weather} {weather_smile} \n'
               f'Ощущается как: {round(feels_like, 1)}С° \nВлажность: {humidity}% \nДавление: {pressure}мм.рт.ст \n'
-              f'Ветер: {wind} м/с \nВосход солнца: {sunrise.split()[1]} \nЗаход солнца: {sunset.split()[1]} \n'
+              f'Ветер: {wind} м/с \nВосход солнца (GMT+3): {sunrise.split()[1]} \nЗаход солнца (GMT+3): {sunset.split()[1]} \n'
              f'Продолжительность дня: {length_day.split()[1]}')
         #print(s)
         return (s)
