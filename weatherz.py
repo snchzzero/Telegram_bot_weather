@@ -1,6 +1,7 @@
 import requests
 import datetime  # для перевода секунд раcсвета и заката с 1 января 1970 в норм вид
 import config
+import pytz  # GMT+3
 #from pprint import pprint  # что бы красиво разложить файл json
 
 
@@ -32,14 +33,23 @@ def get_weather(name):
         weather_description = data2['weather'][0]['main']
         weather_smile = smile[weather_description]
         wind = data2['wind']['speed']
-        sunrise = str(datetime.datetime.fromtimestamp(data2['sys']['sunrise']))
-        sunset = str(datetime.datetime.fromtimestamp(data2['sys']['sunset']))
-        length_day = str(datetime.datetime.fromtimestamp(data2['sys']['sunset'] - data2['sys']['sunrise']))
+        sunrise = datetime.datetime.fromtimestamp(data2['sys']['sunrise'])
+        sunset = datetime.datetime.fromtimestamp(data2['sys']['sunset'])
+        #length_day = str(datetime.datetime.fromtimestamp(data2['sys']['sunset'] - data2['sys']['sunrise']))
+
+        old_timezone = pytz.timezone("GMT")
+        new_timezone = pytz.timezone("Europe/Moscow")
+        sunrise_gmt3 = old_timezone.localize(sunrise).astimezone(new_timezone)
+        snrsgmt3 = (str(sunrise_gmt3).split()[1]).split('+')[0]
+        sunset_gmt3 = old_timezone.localize(sunset).astimezone(new_timezone)
+        sstgmt3 = (str(sunset_gmt3).split()[1]).split('+')[0]
+        length_day = str(sunset_gmt3 - sunrise_gmt3)
+
 
         s = (f'Погода в городе: {city} \nТемпература: {round(temp,1)}С° {weather} {weather_smile} \n'
               f'Ощущается как: {round(feels_like, 1)}С° \nВлажность: {humidity}% \nДавление: {pressure}мм.рт.ст \n'
-              f'Ветер: {wind} м/с \nВосход солнца (GMT+3): {sunrise.split()[1]} \nЗаход солнца (GMT+3): {sunset.split()[1]} \n'
-             f'Продолжительность дня: {length_day.split()[1]}')
+              f'Ветер: {wind} м/с \nВосход солнца (GMT+3): {snrsgmt3} \nЗаход солнца (GMT+3): {sstgmt3} \n'
+             f'Продолжительность дня: {length_day}')
         #print(s)
         return (s)
     except Exception as ex:
