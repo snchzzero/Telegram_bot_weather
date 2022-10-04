@@ -24,7 +24,7 @@ def get_weather(name):
             f"https://api.openweathermap.org/data/2.5/weather?q={name}&appid={config.open_weather_token}&lang={'ru'}&units=metric")
         data2 = r2.json()
         #print('****')
-        #pprint(data2)
+        #pprint(data3)
         city = data2['name']
         temp = data2['main']['temp']
         feels_like = data2['main']['feels_like']
