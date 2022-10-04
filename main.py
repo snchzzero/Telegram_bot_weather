@@ -8,7 +8,7 @@ bot = telebot.TeleBot(telegram_token)
 @bot.message_handler(commands=["start"])  # декоратор
 def start(message):  # Название функции не играет никакой роли
     mess = f'Привет, <b>{message.from_user.first_name}!</b> ' \
-           f'Напиши мне название города и я пришлю тебе текущую сводку погоды!' # выводит имя пользователя
+           f'Напиши мне название города, и я пришлю тебе текущую сводку погоды!' # выводит имя пользователя
     bot.send_message(message.chat.id, mess, parse_mode='html')
 
 
