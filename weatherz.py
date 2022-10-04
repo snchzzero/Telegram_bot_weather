@@ -19,6 +19,7 @@ def get_weather(name):
     }
 
     try:
+        # r2 - для получения общей сводки погоды
         r2 = requests.get(
             f"https://api.openweathermap.org/data/2.5/weather?q={name}&appid={config.open_weather_token}&lang={'ru'}&units=metric")
         data2 = r2.json()
@@ -28,7 +29,7 @@ def get_weather(name):
         temp = data2['main']['temp']
         feels_like = data2['main']['feels_like']
         humidity = data2['main']['humidity']
-        pressure = data2['main']['pressure']
+        pressure = int(data2['main']['pressure'] * 0.750064)  # переводим из гектопаскалей в мм.рт.ст.
         weather = data2['weather'][0]['description']  # состояние облачно, ясно и т.д
         weather_description = data2['weather'][0]['main']
         weather_smile = smile[weather_description]
